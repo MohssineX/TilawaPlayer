@@ -20,7 +20,8 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-echo "python3 src/main.py" > run.sh
- 
-cd src/
-python3 main.py
+echo "#!/bin/bash
+
+python3 src/main.py" > run.sh
+
+python3 src/main.py
