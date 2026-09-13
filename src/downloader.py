@@ -12,9 +12,7 @@ import urllib.request
 from config import COLOR_YELLOW, COLOR_GREEN, COLOR_RESET
 
 def download_surah(url, reciter, Nsurahint):
-    script_path = os.path.dirname(os.path.abspath(__file__))
-
-    file_path = os.path.join(script_path, f"TilawaPlayerR{reciter}S{Nsurahint}.mp3")
+    file_path = os.path.join(os.getcwd(), f"TilawaPlayerR{reciter}S{Nsurahint}.mp3")
 
     print("An audio file is being downloaded...")
 
