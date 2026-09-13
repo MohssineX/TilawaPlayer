@@ -33,56 +33,58 @@ import input_handler
 import player
 import downloader
 
-running = True
+def main():
+    running = True
 
-while running:
-    print("\033c", end="")
+    while running:
+        print("\033c", end="")
 
-    print(f"{COLOR_GREEN}{logo.logo}{COLOR_RESET}")
+        print(f"{COLOR_GREEN}{logo.logo}{COLOR_RESET}")
 
-    print(f"{COLOR_YELLOW}Welcome to the {cfg.appName} app{COLOR_RESET}")
-    print("")
+        print(f"{COLOR_YELLOW}Welcome to the {cfg.appName} app{COLOR_RESET}")
+        print("")
 
-    input(f"Press the Enter button to start using the {cfg.appName} : ")
-    print("")
+        input(f"Press the Enter button to start using the {cfg.appName} : ")
+        print("")
 
-    option, reciter, url, Nsurahint = input_handler.get_user_input()
+        option, reciter, url, Nsurahint = input_handler.get_user_input()
 
-    while True:
-        if option == "1":
+        while True:
+            if option == "1":
+                    try:
+                        user_action = player.play_surah(url, Nsurahint)
+                        break
+
+                    except Exception:
+                        input(f"{COLOR_RED}Err201 : Streaming failed [Check your internet or Wi-Fi connection and try again]>>>{COLOR_RESET}")
+                        print("")
+                            
+            else:
                 try:
-                    user_action = player.play_surah(url, Nsurahint)
+                    user_action = downloader.download_surah(url, reciter, Nsurahint)
                     break
 
                 except Exception:
-                    input(f"{COLOR_RED}Err201 : Streaming failed [Check your internet or Wi-Fi connection and try again]>>>{COLOR_RESET}")
                     print("")
-                        
-        else:
-            try:
-                user_action = downloader.download_surah(url, reciter, Nsurahint)
+                    input(f"{COLOR_RED}Err202 : Download failed [Check your internet connection, available disk space, and folder write permissions]>>>{COLOR_RESET}")
+                    print("")
+
+        while True:
+            if user_action == "q":
+                print("")
+                print(f"{COLOR_YELLOW}goodbye{COLOR_RESET}")
+                running = False
                 break
 
-            except Exception:
+            elif user_action == "r":
+                print("\033c" , end="")
+                break
+
+            else:
                 print("")
-                input(f"{COLOR_RED}Err202 : Download failed [Check your internet connection, available disk space, and folder write permissions]>>>{COLOR_RESET}")
+                print(f"{COLOR_RED}Err105 : Invalid choice [Please enter 'r' to restart or 'q' to quit]{COLOR_RESET}")
                 print("")
+                user_action = input(f"{COLOR_GREEN}Type 'r' to restart or 'q' to quit : {COLOR_RESET}")
 
-    while True:
-        if user_action == "q":
-            print("")
-            print(f"{COLOR_YELLOW}goodbye{COLOR_RESET}")
-            running = False
-            break
-
-        elif user_action == "r":
-            print("\033c" , end="")
-
-            running = True
-            break
-
-        else:
-            print("")
-            print(f"{COLOR_RED}Err105 : Invalid choice [Please enter 'r' to restart or 'q' to quit]{COLOR_RESET}")
-            print("")
-            user_action = input(f"{COLOR_GREEN}Type 'r' to restart or 'q' to quit : {COLOR_RESET}")
+if __name__ == "__main__":
+    main()
