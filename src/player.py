@@ -7,17 +7,21 @@
 # player.py
 
 import config as cfg
-from config import COLOR_GREEN, COLOR_RED, COLOR_YELLOW, COLOR_RESET
-import urllib.request
+from config import COLOR_RED, COLOR_YELLOW, COLOR_RESET
 
+import urllib.request
 import miniaudio
+
 
 def play_surah(url, Nsurahint):
 
     class MP3Source(miniaudio.StreamableSource):
 
         def __init__(self, url):
-            self.response = urllib.request.urlopen(url, timeout=cfg.timeoutCfg)
+            self.response = urllib.request.urlopen(
+                url,
+                timeout=cfg.timeoutCfg
+            )
             self.error_occurred = False
 
         def read(self, num_bytes):
@@ -28,33 +32,40 @@ def play_surah(url, Nsurahint):
                 if not self.error_occurred:
                     print("")
                     print("")
-                    print(f"{COLOR_RED}Err203 : Unexpected disconnection [Please restart {cfg.appName}]{COLOR_RESET}", flush=True)
-                    print("")
-                    print(f"{COLOR_GREEN}Type 'r' to restart or 'q' to quit : {COLOR_RESET}", end="", flush=True)
+                    print(
+                        f"{COLOR_RED}"
+                        f"Err203 : Unexpected disconnection "
+                        f"[Please restart {cfg.appName}]"
+                        f"{COLOR_RESET}",
+                        flush=True
+                    )
 
                 self.error_occurred = True
                 return b""
-                
-    source = MP3Source(f"{url}{Nsurahint}.mp3")
-    stream = miniaudio.stream_any(source, miniaudio.FileFormat.MP3)
 
-    with miniaudio.PlaybackDevice() as device:
-        device.start(stream)
+    source = MP3Source(
+        f"{url}{Nsurahint}.mp3"
+    )
 
-        print("The Quran is playing")
-        print("")
+    stream = miniaudio.stream_any(
+        source,
+        miniaudio.FileFormat.MP3
+    )
 
-        print(f"{COLOR_YELLOW}Thank you for using TilawaPlayer!{COLOR_RESET}")
-        print("")
+    device = miniaudio.PlaybackDevice()
 
-        while True:
-            user_action = input(
-                f"{COLOR_GREEN}Type 'r' to restart or 'q' to quit : {COLOR_RESET}"
-            ).lower().strip()
+    device.start(stream)
 
-            if user_action in ("r", "q"):
-                return user_action
+    print("The Quran is playing")
+    print("")
 
-            print(
-                f"{COLOR_RED}Invalid option. Please type 'r' or 'q'.{COLOR_RESET}"
-            )
+    print(
+        f"{COLOR_YELLOW}"
+        "Thank you for using TilawaPlayer!"
+        f"{COLOR_RESET}"
+    )
+
+    print("")
+
+    return device
+

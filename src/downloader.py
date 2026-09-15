@@ -33,5 +33,3 @@ def download_surah(url, reciter, Nsurahint):
     print(f"{COLOR_YELLOW}Thank you for using TilawaPlayer!{COLOR_RESET}")
     print("")
 
-    user_action = input(f"{COLOR_GREEN}Type 'r' to restart or 'q' to quit : {COLOR_RESET}")
-    return user_action

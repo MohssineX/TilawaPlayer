@@ -12,7 +12,7 @@ import sys
 import os
 import signal
 
-if sys.platform == "win32": # Enable ANSI escape codes on Windows (not needed on Linux/Mac)
+if sys.platform == "win32":  # Enable ANSI escape codes on Windows (not needed on Linux/Mac)
     os.system("")
 
 # Exit the application when pressing Ctrl+C.
@@ -44,47 +44,60 @@ def main():
         print(f"{COLOR_YELLOW}Welcome to the {cfg.appName} app{COLOR_RESET}")
         print("")
 
-        input(f"Press the Enter button to start using the {cfg.appName} : ")
+        input(
+            f"Press the Enter button to start using {cfg.appName} : ")
+
         print("")
 
         option, reciter, url, Nsurahint = input_handler.get_user_input()
 
+        # Play or download
+
         while True:
             if option == "1":
-                    try:
-                        user_action = player.play_surah(url, Nsurahint)
-                        break
+                try:
+                    device = player.play_surah( url , Nsurahint )
+                    break
 
-                    except Exception:
-                        input(f"{COLOR_RED}Err201 : Streaming failed [Check your internet or Wi-Fi connection and try again]>>>{COLOR_RESET}")
-                        print("")
-                            
+                except Exception:
+                    input(f"{COLOR_RED} Err201 : Streaming failed [Check your internet or Wi-Fi connection and try again]>>>{COLOR_RESET}")
+                    print("")
+
             else:
                 try:
-                    user_action = downloader.download_surah(url, reciter, Nsurahint)
+                    downloader.download_surah( url , reciter , Nsurahint)
+                    device = None
                     break
 
                 except Exception:
                     print("")
-                    input(f"{COLOR_RED}Err202 : Download failed [Check your internet connection, available disk space, and folder write permissions]>>>{COLOR_RESET}")
+                    input(f"{COLOR_RED}Err202 : Download failed [Check your internet connection , available disk space, and folder write permissions]>>>{COLOR_RESET}")
                     print("")
 
+        # Restart or quit
         while True:
+            user_action = input(f"{COLOR_GREEN} Type 'r' to restart or 'q' to quit : {COLOR_RESET}").lower().strip()
+
             if user_action == "q":
+                if device is not None:
+                    device.close()
+
                 print("")
                 print(f"{COLOR_YELLOW}goodbye{COLOR_RESET}")
                 running = False
                 break
 
             elif user_action == "r":
-                print("\033c" , end="")
+                if device is not None:
+                    device.close()
+
+                print("\033c", end="")
                 break
 
             else:
                 print("")
-                print(f"{COLOR_RED}Err105 : Invalid choice [Please enter 'r' to restart or 'q' to quit]{COLOR_RESET}")
+                print(f"{COLOR_RED} Err105 : Invalid choice [Please enter 'r' to restart or 'q' to quit] {COLOR_RESET}")
                 print("")
-                user_action = input(f"{COLOR_GREEN}Type 'r' to restart or 'q' to quit : {COLOR_RESET}")
 
 if __name__ == "__main__":
     main()
