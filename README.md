@@ -120,6 +120,10 @@ python3 main.py
 If you are a Linux user, simply clone the repository and then
 
 ```bash
+chmod +x setup.sh
+```
+
+```bash
 ./setup.sh
 ```
 
