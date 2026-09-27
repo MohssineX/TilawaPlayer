@@ -7,6 +7,11 @@
 # Copyright (C) 2026 Mohssine <https://github.com/MohssineX>
 
 # setup.sh
+
+if ! command -v python3 &> /dev/null; then
+    echo "python3 is not installed. Please install Python3 first."
+    exit 1
+fi
  
 if ! command -v pip &> /dev/null; then
     echo "pip is not installed. Please install pip first."
@@ -23,5 +28,7 @@ fi
 echo "#!/bin/bash
 
 python3 src/main.py" > run.sh
+
+chmod +x run.sh
 
 python3 src/main.py
