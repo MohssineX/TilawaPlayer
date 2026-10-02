@@ -70,6 +70,7 @@ def main():
                     print("")
 
         while True:
+            user_action = user_action.strip().lower()
             if user_action == "q":
                 print("")
                 print(f"{COLOR_YELLOW}goodbye{COLOR_RESET}")
