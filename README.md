@@ -16,11 +16,10 @@ A lightweight Quran player built with Python that runs in the terminal and suppo
 ![TilawaPlayer](TilawaPlayer.png)
 ![reciters](reciters.png)
 
-> [!NOTE]
+> [!IMPORTANT]
 > 
-> Currently, the **TilawaPlayer** project is still in **Beta**, so you may encounter errors, unexpected behavior, or unstable features.
->
-> **Feel free to report any bugs or issues.**
+> **This project is currently archived and development has stopped.**
+
 
 ## Features 
 
